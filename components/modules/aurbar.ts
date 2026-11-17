@@ -69,8 +69,9 @@ const rgba = (ctx: any, c: number[], a: number) => ctx.setSourceRGBA(c[0] / 255,
 const blink2 = (q: number) => { if (q >= 0.75) return 1; const c = (q / 0.75) * 2; return (c % 1) < 0.5 ? 1 : 0.14 }
 
 
-export const getAurUpdates = () =>
-    execAsync(["sh", "-c", `'${CYBER_DIR}/scripts/aur' check`]).then((out: string) => {
+export const getAurUpdates = () => GLib.getenv("CYBERARCH_OS") === "ubuntu"
+    ? Promise.resolve({ count: 0, list: [] as string[] })
+    : execAsync(["sh", "-c", `'${CYBER_DIR}/scripts/aur' check`]).then((out: string) => {
         const lines = out.split("\n")
         count = parseInt((lines[0] || "0").trim()) || 0
         lastList = lines.slice(1).map((s) => s.trim()).filter(Boolean)
@@ -79,7 +80,9 @@ export const getAurUpdates = () =>
 
 export const cachedAurUpdates = () => ({ count, list: lastList })
 
-export const startUpgrade = () => execAsync(["sh", "-c", `'${CYBER_DIR}/scripts/aur' upgrade`]).catch(() => { })
+export const startUpgrade = () => GLib.getenv("CYBERARCH_OS") === "ubuntu"
+    ? Promise.resolve()
+    : execAsync(["sh", "-c", `'${CYBER_DIR}/scripts/aur' upgrade`]).catch(() => { })
 
 
 const UPDATER = `${CYBER_DIR}/updater.sh`
