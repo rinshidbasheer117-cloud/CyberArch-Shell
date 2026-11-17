@@ -4,7 +4,7 @@
 <img width="768" height="432" alt="title" src="https://github.com/user-attachments/assets/e2e359db-0e47-44a8-b339-710c5c50e190" />
 
 <p align="center">
-  <img src="https://img.shields.io/badge/AGS 3.0-ff2d3d?style=for-the-badge&logo=gtk&logoColor=white" />
+  <img src="https://img.shields.io/badge/AGS 2.3-ff2d3d?style=for-the-badge&logo=gtk&logoColor=white" />
   <img src="https://img.shields.io/badge/Quickshell-ff2d3d?style=for-the-badge&logo=qt&logoColor=white" />
   <img src="https://github-view-counter.vercel.app/api?username=cyberarch&label=Views:&style=square&bgColor=ff2d3d&color=ffffff" />
   <img src="https://img.shields.io/badge/HYPRLAND-ff2d3d?style=for-the-badge&logo=hyprland&logoColor=white" />
@@ -13,7 +13,7 @@
   
 </p>
 
-### **A Hyprland *netrunner* rice with built on AGS v3 / Astal**
+### **A Hyprland *netrunner* rice built on AGS v2 / Astal**
 
 
 </div>

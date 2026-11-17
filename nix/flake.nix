@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/e03f211152d22378ff43ee309ee83b906fe62705";
-    ags.url = "github:Aylur/ags/bbee2f18939f1ec7ff720e717cf305e73635628f";
+    ags.url = "github:Aylur/ags/a6a7a0adb17740f4c34a59902701870d46fbb6a4";
     ags.inputs.nixpkgs.follows = "nixpkgs";
   };
 
