@@ -2,6 +2,9 @@
 set -uo pipefail
 
 THEME="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+if [ -r /etc/os-release ] && . /etc/os-release && [ "${ID:-}" = ubuntu ]; then
+    exec bash "$THEME/uninstall-ubuntu.sh" "$@"
+fi
 CONFIG="$HOME/.config"
 THEME_CONFIG="${XDG_CONFIG_HOME:-$CONFIG}"
 CANON="$CONFIG/hypr/themes/cyberpunk"
