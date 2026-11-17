@@ -20,6 +20,14 @@
 
 
 
+## Ubuntu 26.04 (experimental, Nix isolated)
+
+The Ubuntu path keeps GNOME and GDM as the default desktop and installs Hyprland plus the shell runtime in a dedicated Nix profile. It does not run the Arch installer, change GNOME appearance settings, install SDDM, or edit PAM. AUR status and upgrade controls are unavailable in this mode.
+
+From a checkout of this repository, run `./install.sh --dry-run` to review the preflight, then `./install.sh` in a terminal. If Nix is missing, the installer explains the official multi-user installer changes and asks before running it; declining leaves the system unchanged. The installer asks separately before adding one optional GDM session entry. At GDM, select **CyberArch (Hyprland)** to try it; GNOME remains available and remains the default.
+
+The install refuses to replace existing CyberArch paths. Uninstall with `./uninstall.sh`; it removes the recorded theme link, session entry and dedicated profile, while preserving the Nix daemon and shared store. Ubuntu support is currently limited to x86_64 Ubuntu 26.04.
+
 # // Theme Showcase
 
 <table border="0">
