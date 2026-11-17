@@ -7,6 +7,16 @@
 
 helper() { command -v paru 2>/dev/null || command -v yay 2>/dev/null || true; }
 
+# AUR helpers are Arch-only. Never probe or run pacman/yay/paru in the local Ubuntu session.
+if [ "${CYBERARCH_OS:-}" = ubuntu ] || { [ -r /etc/os-release ] && . /etc/os-release && [ "${ID:-}" = ubuntu ]; }; then
+    case "${1:-}" in
+        check) printf '0\n' ;;
+        upgrade) echo 'AUR upgrades are unavailable outside Arch Linux.' >&2; exit 1 ;;
+        *) echo 'usage: aur {check|upgrade}' >&2; exit 2 ;;
+    esac
+    exit 0
+fi
+
 repo_updates() {
     if command -v checkupdates >/dev/null 2>&1; then
         checkupdates 2>/dev/null
