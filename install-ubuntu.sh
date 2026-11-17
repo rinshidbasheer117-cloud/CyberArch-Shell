@@ -120,5 +120,9 @@ case "$answer" in
   *) echo 'Skipped GDM entry; the user files and Nix profile are installed.'; session_path=''; session_digest='' ;;
 esac
 printf '%s\n' "theme=$THEME_LINK" "profile=$PROFILE" "launcher=$HOME/.local/bin/cyberarch-session" "session=$session_path" "session_digest=$session_digest" "source=$THEME" "ags_link=$ags_link_before" "astal_link=$astal_link_before" "gnim_link=$gnim_link_before" > "$MANIFEST"
+printf 'profile_target=%s\nlauncher_digest=%s\nconfig_digest=%s\n' \
+  "$(readlink "$PROFILE")" \
+  "$(sha256sum "$HOME/.local/bin/cyberarch-session" | awk '{print $1}')" \
+  "$(sha256sum "$STATE/hyprland.lua" | awk '{print $1}')" >> "$MANIFEST"
 trap - ERR
 echo 'Installed. GNOME remains the default session; choose CyberArch (Hyprland) from the GDM session menu.'
