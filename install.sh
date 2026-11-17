@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -uo pipefail
 THEME="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -r /etc/os-release ] && . /etc/os-release && [ "${ID:-}" = ubuntu ]; then
+  exec bash "$THEME/install-ubuntu.sh" "$@"
+fi
 if [ "$(id -u)" = 0 ]; then
   if [ -n "${SUDO_USER:-}" ]; then
     exec runuser -u "$SUDO_USER" -- env -u SUDO_USER bash "$THEME/install.sh" "$@"
