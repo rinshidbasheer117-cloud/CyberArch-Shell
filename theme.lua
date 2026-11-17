@@ -1,4 +1,5 @@
 local cyberpunk = os.getenv("HOME") .. "/.config/hypr/themes/cyberpunk"
+local ags_bin = os.getenv("CYBERARCH_AGS_BIN") or (os.getenv("HOME") .. "/.local/bin/ags")
 
 local once = function(cmd)
     hl.on("hyprland.start", function()
@@ -10,11 +11,13 @@ end
 hl.config({ xwayland = { enabled = true } })
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
 
+if os.getenv("CYBERARCH_SESSION_LOCAL") ~= "1" then
 hl.exec_cmd("dbus-update-activation-environment --systemd --all")
 hl.exec_cmd("sh -c 'sleep 3; hyprctl dispatch exec \"dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XAUTHORITY XCURSOR_THEME XCURSOR_SIZE\"' &")
 hl.exec_cmd("killall -9 waybar mako dunst swaync 2>/dev/null; systemctl --user stop waybar mako dunst swaync 2>/dev/null || true")
+end
 -- updt: start the wheel after Hyprland brings up XWayland.
-once("sh -c 'pgrep -x gjs >/dev/null 2>&1 || { " .. os.getenv("HOME") .. "/.local/bin/ags quit -i cyberpunk 2>/dev/null; sleep 1; " .. cyberpunk .. "/scripts/launch-theme; }'")
+once("sh -c 'pgrep -x gjs >/dev/null 2>&1 || { " .. ags_bin .. " quit -i cyberpunk 2>/dev/null; sleep 1; " .. cyberpunk .. "/scripts/launch-theme; }'")
 hl.exec_cmd(cyberpunk .. "/scripts/ws pin")
 local user_dir = (os.getenv("XDG_CONFIG_HOME") or (os.getenv("HOME") .. "/.config")) .. "/cyberarch"
 local ucfg = {}
@@ -129,6 +132,7 @@ local hex = function(v) return string.format("%02x", math.floor(v + 0.5)) end
 local rgba = function(c, a) return "rgba(" .. hex(c[1]) .. hex(c[2]) .. hex(c[3]) .. a .. ")" end
 local rgb = function(c) return "rgb(" .. hex(c[1]) .. hex(c[2]) .. hex(c[3]) .. ")" end
 
+if os.getenv("CYBERARCH_SESSION_LOCAL") ~= "1" then
 hl.exec_cmd("mkdir -p " .. os.getenv("HOME") .. "/.config/kitty && ln -sfn " .. cyberpunk .. "/assets/kitty/kitty.conf " .. os.getenv("HOME") .. "/.config/kitty/kitty.conf")
 hl.exec_cmd("mkdir -p " .. os.getenv("HOME") .. "/.local/share/icons && ln -sfn " .. cyberpunk .. "/assets/gtk/iconpack " .. os.getenv("HOME") .. "/.local/share/icons/iconpack")
 hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme 'iconpack'")
@@ -139,6 +143,12 @@ hl.env("XCURSOR_THEME", "neurodance")
 hl.env("XCURSOR_SIZE", "48")
 hl.env("QT_STYLE_OVERRIDE", "kvantum")
 once("bash " .. cyberpunk .. "/scripts/apply_theme")
+else
+    -- Keep GTK, Kitty, icon and cursor preferences session-local on Ubuntu.
+    hl.env("XCURSOR_THEME", "neurodance")
+    hl.env("XCURSOR_SIZE", "48")
+    hl.env("QT_STYLE_OVERRIDE", "kvantum")
+end
 
 dofile(cyberpunk .. "/config/keybinds.lua")
 
