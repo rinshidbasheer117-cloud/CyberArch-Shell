@@ -32,7 +32,7 @@ if [ "$session" = /usr/local/share/wayland-sessions/cyberarch.desktop ] && [ -f 
   if [ "$actual_digest" = "$session_digest" ]; then sudo rm -f -- "$session"
   else echo "Kept modified session entry: $session"; fi
 fi
-if [ -n "$source" ] && [ "$source" = "$expected_source" ]; then
+if [ -n "$source" ] && [ -d "$source" ] && [ -f "$source/theme.lua" ] && [ -d "$source/node_modules" ]; then
   [ ! -L "$source/node_modules/ags" ] || [ "$(readlink "$source/node_modules/ags")" != "$STATE/nix-profile/share/ags/js" ] || ln -sfn -- "$ags_link" "$source/node_modules/ags"
   [ ! -L "$source/node_modules/astal" ] || [ "$(readlink "$source/node_modules/astal")" != "$STATE/nix-profile/share/astal/gjs" ] || ln -sfn -- "$astal_link" "$source/node_modules/astal"
   [ ! -L "$source/node_modules/gnim" ] || [ "$(readlink "$source/node_modules/gnim")" != "$STATE/nix-profile/share/ags/js/node_modules/gnim" ] || ln -sfn -- "$gnim_link" "$source/node_modules/gnim"
